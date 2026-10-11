@@ -1,6 +1,9 @@
 // import { test, expect } from "@playwright/test";
 import { logInPage } from "../pages/login.page";
 import { test, expect } from '../fixture/PageObjects';
+import { InventoryPage } from "../pages/inventory.page";
+
+  
 test.describe("Login Feature", () => {
 
   // ล็อกอินสำเร็จด้วย User ปกติ (standard_user)
@@ -35,4 +38,29 @@ test.describe("Login Feature", () => {
     await logInPage.ErrorUrl();
   });
 
+  test.describe("Inventory",() => {
+
+  // ตรวจสอบการเรียงลำดับสินค้าจากราคาต่ำไปสูง (Price (low to high))
+       test("Price (low to high)", async ({logInPage,InventoryPage}) => {
+      await logInPage.goto();
+       await logInPage.fillUser("standard_user", "secret_sauce");
+       await logInPage.clickLogin();
+       await logInPage.loginSuccess();
+       await InventoryPage.filTerLowToHigh("lohi");
+      
+     
+  });
+  // กดเพิ่มสินค้าใส่ตะกร้าจากหน้าสินค้า (Add to Cart)
+test("(Add to Cart)", async ({logInPage,InventoryPage}) => {
+      await logInPage.goto();
+       await logInPage.fillUser("standard_user", "secret_sauce");
+       await logInPage.clickLogin();
+       await logInPage.loginSuccess();
+       await InventoryPage.filTerLowToHigh("lohi");
+       await InventoryPage.addItem();
+     
+  });
+
+  }
+)    
   });
