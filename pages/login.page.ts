@@ -16,14 +16,14 @@ export class logInPage{
        this.passwordInput = page.getByRole('textbox', {name :"Password"});
        this.loginButtom = page.getByRole('button', {name:'Login'})
        this.errorMessage = page.locator('[data-test="error"]');
-       
+    //    this.lockedOutUser = page.locator('[data-test="error-button"]')
     }
     
     async goto(){
         await this.page.goto(this.baseUrl);
         
     }
-     async login(username:string, password:string){
+     async fillUser(username:string, password:string){
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
       

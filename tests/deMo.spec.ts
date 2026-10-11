@@ -1,21 +1,38 @@
 // import { test, expect } from "@playwright/test";
 import { logInPage } from "../pages/login.page";
-import { test } from "../fixture/fixture.page";
-
+import { test, expect } from '../fixture/PageObjects';
 test.describe("Login Feature", () => {
+
+  // ล็อกอินสำเร็จด้วย User ปกติ (standard_user)
   test("Page_Login", async ({logInPage}) => {   
     await logInPage.goto();
-    await logInPage.login("standard_user", "secret_sauce");
+    await logInPage.fillUser("standard_user", "secret_sauce");
     await logInPage.clickLogin();
     await logInPage.loginSuccess();
   });
-  test("Login_error", async ({ page }) => {
-    await loginPage.goto();
-    await loginPage.login("", "");
-    await loginPage.clickLogin();
-    await loginPage.verifyErrorMessage("Epic sadface: Username is required");
-    await loginPage.ErrorUrl();
-    
-    console.log("verifyErrorMessage");
+  // ล็อกอินไม่สำเร็จด้วย User ที่ถูกบล็อก (locked_out_user)
+     test("locked_out", async ({ logInPage}) => {
+  await logInPage.goto();
+  await logInPage.fillUser("locked_out_user","secret_sauce");
+  await logInPage.clickLogin();
+  await logInPage.verifyErrorMessage("Epic sadface: Sorry, this user has been locked out.");
+  await logInPage.ErrorUrl();
+   });
+  // ล็อกอินไม่สำเร็จเมื่อปล่อยว่างทุกช่อง
+  test("LoginEmteyFill", async ({ logInPage}) => {
+    await logInPage.goto();
+    await logInPage.fillUser("", "");
+    await logInPage.clickLogin();
+    await logInPage.verifyErrorMessage("Epic sadface: Username is required");
+    await logInPage.ErrorUrl();
   });
-});
+  // ล็อกอินไม่สำเร็จเมื่อไม่ใส่รหัสผ่าน
+   test("LoginNotFillPasword", async ({ logInPage}) => {
+    await logInPage.goto();
+    await logInPage.fillUser("standard_user", "");
+    await logInPage.clickLogin();
+    await logInPage.verifyErrorMessage("Epic sadface: Password is required");
+    await logInPage.ErrorUrl();
+  });
+
+  });
