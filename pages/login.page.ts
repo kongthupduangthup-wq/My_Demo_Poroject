@@ -6,6 +6,8 @@ export class logInPage{
     readonly  passwordInput: Locator;
     readonly  loginButtom: Locator;
     readonly  errorMessage: Locator;
+    baseUrl = 'https://www.saucedemo.com/';
+  
   
 
     constructor(page:Page){
@@ -18,13 +20,16 @@ export class logInPage{
     }
     
     async goto(){
-        await this.page.goto('https://www.saucedemo.com/')
+        await this.page.goto(this.baseUrl);
         
     }
      async login(username:string, password:string){
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
+      
+     }
      
+     async clickLogin(){
         await this.loginButtom.click();
      }
 
@@ -35,5 +40,8 @@ export class logInPage{
     async verifyErrorMessage(expectedText: string) {
     await expect(this.errorMessage).toContainText(expectedText);
   }
+    async ErrorUrl(){
+        await  this.page.waitForURL('https://www.saucedemo.com/');
+    }
 }
 
