@@ -2,6 +2,7 @@
 import { logInPage } from "../pages/login.page";
 import { test, expect } from '../fixture/PageObjects';
 import { InventoryPage } from "../pages/inventory.page";
+import { cartPage } from "../pages/cart.page";
 
   
 test.describe("Login Feature", () => {
@@ -43,12 +44,13 @@ test.describe("Login Feature", () => {
   // ตรวจสอบการเรียงลำดับสินค้าจากราคาต่ำไปสูง (Price (low to high))
        test("Price (low to high)", async ({logInPage,InventoryPage}) => {
       await logInPage.goto();
-       await logInPage.fillUser("standard_user", "secret_sauce");
-       await logInPage.clickLogin();
-       await logInPage.loginSuccess();
-       await InventoryPage.filTerLowToHigh("lohi");
-      
-     
+      await logInPage.fillUser("standard_user", "secret_sauce");
+      await logInPage.clickLogin();
+      await logInPage.loginSuccess();
+      await InventoryPage.selectFiter("lohi");
+      await InventoryPage.getItemPrices();
+  
+    
   });
   // กดเพิ่มสินค้าใส่ตะกร้าจากหน้าสินค้า (Add to Cart)
 test("(Add to Cart)", async ({logInPage,InventoryPage}) => {
@@ -56,11 +58,25 @@ test("(Add to Cart)", async ({logInPage,InventoryPage}) => {
        await logInPage.fillUser("standard_user", "secret_sauce");
        await logInPage.clickLogin();
        await logInPage.loginSuccess();
-       await InventoryPage.filTerLowToHigh("lohi");
+       await InventoryPage.selectFiter("lohi");
        await InventoryPage.addItem();
-     
+      
   });
-
+  // (Cart Verification)
+test("(Cart Verification)", async ({logInPage,InventoryPage,cartPage}) => {
+      await logInPage.goto();
+       await logInPage.fillUser("standard_user", "secret_sauce");
+       await logInPage.clickLogin();
+       await logInPage.loginSuccess();
+       await InventoryPage.addItem();
+      const targetItem = InventoryPage.page.locator('.inventory_item').nth(1);
+      const itemName = await targetItem.locator('.inventory_item_name').textContent();
+      const itemPrice = await targetItem.locator('.inventory_item_price').textContent();
+       await InventoryPage.clickShoppingCartIcon();
+       await cartPage.checkNameItem(itemName,itemPrice);
+    
+  });
+    
   }
 )    
   });

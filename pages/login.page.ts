@@ -43,5 +43,6 @@ export class logInPage{
     async ErrorUrl(){
         await  this.page.waitForURL('https://www.saucedemo.com/');
     }
+   
 }
 

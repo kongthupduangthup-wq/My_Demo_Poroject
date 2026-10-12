@@ -10,7 +10,6 @@ export class InventoryPage {
 
   constructor(page: Page) {
     this.page = page;
-    // ตัวอย่าง Locator สำหรับหัวข้อหน้าสินค้า และไอคอนตะกร้าสินค้าใน Saucedemo
     this.productTitle = page.locator('.title');
     this.shoppingCartIcon = page.locator('.shopping_cart_link');
     this.sortDropdown = page.locator('[data-test="product-sort-container"]');
@@ -28,17 +27,27 @@ export class InventoryPage {
     await this.shoppingCartIcon.click();
   }
 
-async filTerLowToHigh(optionValue: string) {
+async selectFiter(optionValue: string) {
       await this.sortDropdown.selectOption(optionValue);
     }
     
    async addItem(){
     await this.page.locator('[data-test="inventory-item"]').nth(1).getByRole('button', {name :"Add to cart"}).click();
+    await expect (this.page.locator('[data-test="remove-sauce-labs-bike-light"]')).toBeVisible();
+    await expect (this.page.locator('[data-test="shopping-cart-badge"]')).toContainText("1");
+
+    
    }
 
 async getItemPrices(): Promise<number[]> {
     const priceElements = await this.page.locator('.inventory_item_price').allTextContents();
     const prices = priceElements.map(price => parseFloat(price.replace('$', '')));
     return prices;
+  
   }
+
+  async clickShoppingCartIcon(){
+    await this.shoppingCartIcon.click();
+  }
+
 }
