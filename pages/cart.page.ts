@@ -20,10 +20,12 @@ export class cartPage {
     }
     async checkNameItem(expectedName: string| null, expectedPrice: string | null){
         await expect (this.cartItem).toBeVisible();
-        // const actualName = await this.cartItem.locator('.inventory_item_name').textContent();
-        // const actualPrice = await this.cartItem.locator('.inventory_item_price').textContent();
-        // expect(actualName).toEqual(expectedName);
-        // expect(actualPrice).toEqual(expectedPrice);
+        const actualName = await this.cartItem.locator('.inventory_item_name').textContent();
+        const actualPrice = await this.cartItem.locator('.inventory_item_price').textContent();
+        expect(actualName).toEqual(expectedName);
+        expect(actualPrice).toEqual(expectedPrice);
+        expect(actualName).not.toBeNull();
+        expect(actualPrice).not.toBeNull();
         
     }
 }

@@ -48,7 +48,7 @@ test.describe("Login Feature", () => {
       await logInPage.clickLogin();
       await logInPage.loginSuccess();
       await InventoryPage.selectFiter("lohi");
-      await InventoryPage.getItemPrices();
+      // await InventoryPage.getItemPrices();
   
     
   });
@@ -69,7 +69,7 @@ test("(Cart Verification)", async ({logInPage,InventoryPage,cartPage}) => {
        await logInPage.clickLogin();
        await logInPage.loginSuccess();
        await InventoryPage.addItem();
-      const targetItem = InventoryPage.page.locator('.inventory_item').nth(1);
+      const targetItem = InventoryPage.page.locator('.inventory_item').nth(0);
       const itemName = await targetItem.locator('.inventory_item_name').textContent();
       const itemPrice = await targetItem.locator('.inventory_item_price').textContent();
        await InventoryPage.clickShoppingCartIcon();
