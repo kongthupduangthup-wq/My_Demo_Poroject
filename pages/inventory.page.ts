@@ -32,19 +32,19 @@ async selectFiter(optionValue: string) {
     }
     
    async addItem(){
-    await this.page.locator('[data-test="inventory-item"]').nth(0).getByRole('button', {name :"Add to cart"}).click();
+    await this.page.locator('[data-test="inventory-item"]').nth(1).getByRole('button', {name :"Add to cart"}).click();
     await expect (this.page.locator('[data-test="remove-sauce-labs-bike-light"]')).toBeVisible();
     await expect (this.page.locator('[data-test="shopping-cart-badge"]')).toContainText("1");
 
     
    }
 
-// async getItemPrices(): Promise<number[]> {
-//     const priceElements = await this.page.locator('.inventory_item_price').allTextContents();
-//     const prices = priceElements.map(price => parseFloat(price.replace('$', '')));
-//     return prices;
+async getItemPrices(): Promise<number[]> {
+    const priceElements = await this.page.locator('.inventory_item_price').allTextContents();
+    const prices = priceElements.map(price => parseFloat(price.replace('$', '')));
+    return prices;
   
-//   }
+  }
 
   async clickShoppingCartIcon(){
     await this.shoppingCartIcon.click();
