@@ -42,12 +42,12 @@ test.describe("Login Feature", () => {
   test.describe("Inventory",() => {
 
   // ตรวจสอบการเรียงลำดับสินค้าจากราคาต่ำไปสูง (Price (low to high))
-       test("Price (low to high)", async ({logInPage,InventoryPage}) => {
+       test("@21 Price (low to high)", async ({logInPage,InventoryPage}) => {
       await logInPage.goto();
       await logInPage.fillUser("standard_user", "secret_sauce");
       await logInPage.clickLogin();
       await logInPage.loginSuccess();
-      await InventoryPage.selectFiter("lohi");
+      await InventoryPage.selectFiter("Price (low to high)");
       // await InventoryPage.getItemPrices();
   
     
@@ -58,7 +58,7 @@ test("(Add to Cart)", async ({logInPage,InventoryPage}) => {
        await logInPage.fillUser("standard_user", "secret_sauce");
        await logInPage.clickLogin();
        await logInPage.loginSuccess();
-       await InventoryPage.selectFiter("lohi");
+       await InventoryPage.selectFiter("Price (low to high)");
        await InventoryPage.addItem();
        await InventoryPage.getItemPrices();
       
@@ -69,12 +69,9 @@ test("(Cart Verification)", async ({logInPage,InventoryPage,cartPage}) => {
        await logInPage.fillUser("standard_user", "secret_sauce");
        await logInPage.clickLogin();
        await logInPage.loginSuccess();
-       await InventoryPage.addItem();
-      const targetItem = InventoryPage.page.locator('.inventory_item').nth(1);
-      const itemName = await targetItem.locator('.inventory_item_name').textContent();
-      const itemPrice = await targetItem.locator('.inventory_item_price').textContent();
+       await InventoryPage.selectItemByName("sauce-labs-backpack");
        await InventoryPage.clickShoppingCartIcon();
-       await cartPage.checkNameItem(itemName,itemPrice);
+       await cartPage.checkNameItem("sauce-labs-backpack");
     
   });
     
